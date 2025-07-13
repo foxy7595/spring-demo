@@ -20,6 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springdoc.version>2.2.0</springdoc.version>
         <jjwt.version>0.12.3</jjwt.version>
+        <brevo.version>6.0.0</brevo.version>
     </properties>
     <dependencies>
         <!-- Spring Boot Starters -->
@@ -92,6 +93,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <!-- HTTP Client for Brevo API -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
         <!-- Test Dependencies -->

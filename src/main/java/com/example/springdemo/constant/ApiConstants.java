@@ -19,6 +19,10 @@ public final class ApiConstants {
 
     // Auth Endpoints
     public static final String SIGNUP_ENDPOINT = "/signup";
+    public static final String LOGIN_ENDPOINT = "/login";
+    public static final String REFRESH_ENDPOINT = "/refresh";
+    public static final String FORGOT_PASSWORD_ENDPOINT = "/forgot-password";
+    public static final String RESET_PASSWORD_ENDPOINT = "/reset-password";
 
     // HTTP Status Messages
     public static final String SUCCESS_MESSAGE = "Operation completed successfully";
@@ -40,6 +44,20 @@ public final class ApiConstants {
     public static final String USERNAME_EXISTS = "Username already exists";
     public static final String EMAIL_EXISTS = "Email already exists";
     public static final String REGISTRATION_FAILED = "Registration failed";
+    public static final String LOGIN_SUCCESSFUL = "Login successful";
+    public static final String LOGIN_FAILED = "Login failed";
+    public static final String INVALID_CREDENTIALS = "Invalid username/email or password";
+    public static final String ACCOUNT_DISABLED = "Account is disabled";
+    public static final String TOKEN_REFRESHED = "Token refreshed successfully";
+    public static final String TOKEN_REFRESH_FAILED = "Token refresh failed";
+    public static final String INVALID_REFRESH_TOKEN = "Invalid refresh token";
+    public static final String FORGOT_PASSWORD_SUCCESS = "If the email exists, a password reset link has been sent";
+    public static final String FORGOT_PASSWORD_FAILED = "Failed to send password reset email";
+    public static final String PASSWORD_RESET_SUCCESS = "Password reset successfully";
+    public static final String PASSWORD_RESET_FAILED = "Password reset failed";
+    public static final String INVALID_RESET_TOKEN = "Invalid or expired reset token";
+    public static final String PASSWORDS_DO_NOT_MATCH = "Passwords do not match";
+    public static final String RESET_TOKEN_EXPIRED = "Reset token has expired";
     public static final String AUTH_HEALTH = "Authentication API is running!";
 
     // Response Status

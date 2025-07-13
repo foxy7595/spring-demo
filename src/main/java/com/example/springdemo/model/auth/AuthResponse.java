@@ -3,6 +3,7 @@ package com.example.springdemo.model.auth;
 public class AuthResponse {
 
     private String token;
+    private String refreshToken;
     private String type = "Bearer";
     private String username;
     private String email;
@@ -13,8 +14,9 @@ public class AuthResponse {
     public AuthResponse() {}
 
     // Constructor with parameters
-    public AuthResponse(String token, String username, String email, String fullName, String message) {
+    public AuthResponse(String token, String refreshToken, String username, String email, String fullName, String message) {
         this.token = token;
+        this.refreshToken = refreshToken;
         this.username = username;
         this.email = email;
         this.fullName = fullName;
@@ -33,6 +35,14 @@ public class AuthResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public String getType() {
@@ -79,6 +89,7 @@ public class AuthResponse {
     public String toString() {
         return "AuthResponse{" +
                 "token='[PROTECTED]'" +
+                ", refreshToken='[PROTECTED]'" +
                 ", type='" + type + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +

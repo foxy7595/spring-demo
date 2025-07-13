@@ -4,11 +4,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 @Document(collection = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     private String id;
@@ -21,6 +26,9 @@ public class User {
     private String fullName;
     private String role;
     private boolean enabled;
+    private String refreshToken;
+    private String passwordResetToken;
+    private LocalDateTime passwordResetTokenExpiry;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -41,6 +49,27 @@ public class User {
         this.fullName = fullName;
     }
 
+    // UserDetails implementation
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
     // Getters and Setters
     public String getId() {
         return id;
@@ -50,6 +79,7 @@ public class User {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -66,6 +96,7 @@ public class User {
         this.email = email;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -90,12 +121,37 @@ public class User {
         this.role = role;
     }
 
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
+    public LocalDateTime getPasswordResetTokenExpiry() {
+        return passwordResetTokenExpiry;
+    }
+
+    public void setPasswordResetTokenExpiry(LocalDateTime passwordResetTokenExpiry) {
+        this.passwordResetTokenExpiry = passwordResetTokenExpiry;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -124,6 +180,9 @@ public class User {
                 ", fullName='" + fullName + '\'' +
                 ", role='" + role + '\'' +
                 ", enabled=" + enabled +
+                ", refreshToken='[PROTECTED]'" +
+                ", passwordResetToken='[PROTECTED]'" +
+                ", passwordResetTokenExpiry=" + passwordResetTokenExpiry +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

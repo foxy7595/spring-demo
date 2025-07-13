@@ -31,6 +31,9 @@ public class JwtService {
     @Value("${jwt.refresh-token.expiration:604800000}") // 7 days in milliseconds
     private long refreshExpiration;
 
+    @Value("${jwt.password-reset.expiration:3600000}") // 1 hour in milliseconds
+    private long passwordResetExpiration;
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -50,6 +53,42 @@ public class JwtService {
 
     public String generateRefreshToken(UserDetails userDetails) {
         return buildToken(new HashMap<>(), userDetails, refreshExpiration);
+    }
+
+    public String generatePasswordResetToken(String email) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", email);
+        claims.put("type", "password_reset");
+        
+        return Jwts
+                .builder()
+                .setClaims(claims)
+                .setSubject(email)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + passwordResetExpiration))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public boolean isPasswordResetTokenValid(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            String type = claims.get("type", String.class);
+            return "password_reset".equals(type) && !isTokenExpired(token);
+        } catch (Exception e) {
+            logger.warn("Invalid password reset token: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public String extractEmailFromPasswordResetToken(String token) {
+        try {
+            Claims claims = extractAllClaims(token);
+            return claims.get("email", String.class);
+        } catch (Exception e) {
+            logger.warn("Could not extract email from password reset token: {}", e.getMessage());
+            return null;
+        }
     }
 
     private String buildToken(
